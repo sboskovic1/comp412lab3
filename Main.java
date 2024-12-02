@@ -43,11 +43,11 @@ public class Main {
             return;
         }
 
-        DependencyGraph graph = new DependencyGraph();
+        DependencyGraph graph = new DependencyGraph(parser.maxReg);
 
-        graph.buildGraph(renamer.head, parser.maxReg);
+        graph.buildGraph(renamer.head);
 
-        
+        graph.printGraph();
 
         // Allocator allocator = new Allocator(parser.head, regs, renamer.vr, renamer.maxLive, 32768);
 

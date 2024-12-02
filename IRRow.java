@@ -85,4 +85,26 @@ public class IRRow {
         }
     }
 
+    public String toILOCString() {
+        String line = tokenMap.get(opcode);
+        if (op1 != null) {
+            if (opcode == 4) {
+                line += " " + op1.SR;
+            } else if (opcode != 11) {
+                line += " r" + op1.VR;
+            }
+        }
+        if (op2 != null && (opcode >= 6 && opcode <= 10)) {
+            line += ", r" + op2.VR;
+        }
+        if (op3 != null) {
+            if (opcode != 11) {
+                line += " => r" + op3.VR;
+            } else {
+                line += " " + op1.SR;
+            }
+        }
+        return line;
+    }
+
 }
