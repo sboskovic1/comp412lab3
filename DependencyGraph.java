@@ -23,6 +23,9 @@ public class DependencyGraph {
     public Map<Integer, Integer> readMap;
     public Map<Integer, Integer> writeMap;
 
+    public Set<DependencyNode> leaves;
+    public Set<DependencyNode> roots;
+
     public int readStart;
     public int writeStart;
 
@@ -34,7 +37,11 @@ public class DependencyGraph {
         writeCache = new ArrayList<Integer>();
         writeMap = new HashMap<Integer, Integer>(); 
         readMap = new HashMap<Integer, Integer>();
+        roots = new HashSet<DependencyNode>();
+        leaves = new HashSet<DependencyNode>();
         lastUse = new int[maxReg + 1];
+
+
 
         readStart = -1;
         writeStart = -1;
@@ -49,6 +56,9 @@ public class DependencyGraph {
         int latestWrite = -1;
         int latestRead = -1;
         int latestOutput = -1;
+
+        Set<DependencyNode> hasChildren = new HashSet<DependencyNode>();
+
         while (curr != null) {
             DependencyNode node = new DependencyNode(0, curr);
             // Data edges
@@ -89,8 +99,24 @@ public class DependencyGraph {
             writeMap.put(index, latestWrite);
             readMap.put(index, latestRead);
             graph.add(node);
+            if (node.parents.size() == 0) {
+                roots.add(node);
+            } else {
+                hasChildren.addAll(node.parents.keySet());
+            }
+
             curr = curr.next;
             index++;
+        }
+        leaves = new HashSet<DependencyNode>(graph);
+        leaves.removeAll(hasChildren);
+        System.out.println("roots: ");
+        for (DependencyNode root : roots) {
+            System.out.println(root.operation.toILOCString());
+        }
+        System.out.println("leaves: ");
+        for (DependencyNode leaf : leaves) {
+            System.out.println(leaf.operation.toILOCString());
         }
     }
 
