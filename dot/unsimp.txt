@@ -1,0 +1,72 @@
+1: loadI 8 => r1
+Dependencies:
+
+2: loadI 12 => r4
+Dependencies:
+
+3: load r1 => r3
+Dependencies:
+Data (1): loadI 8 => r1
+
+4: load r4 => r5
+Dependencies:
+Data (2): loadI 12 => r4
+
+5: add r1, r3 => r2
+Dependencies:
+Data (1): loadI 8 => r1
+Data (3): load r1 => r3
+
+6: store r2 => r4
+Dependencies:
+Data (5): add r1, r3 => r2
+Data (2): loadI 12 => r4
+Serialization (4): load r4 => r5
+Serialization (3): load r1 => r3
+
+7: output 8
+Dependencies:
+Conflict (6): store r2 => r4
+
+8: sub r2, r3 => r0
+Dependencies:
+Data (5): add r1, r3 => r2
+Data (3): load r1 => r3
+
+9: store r0 => r1
+Dependencies:
+Data (1): loadI 8 => r1
+Serialization (6): store r2 => r4
+Serialization (4): load r4 => r5
+Serialization (7): output 8
+Serialization (3): load r1 => r3
+Data (8): sub r2, r3 => r0
+
+10: output 8
+Dependencies:
+Conflict (9): store r0 => r1
+Conflict (6): store r2 => r4
+Serialization (7): output 8
+
+[ loadI 8 => r1 ; loadI 12 => r4 ]
+[ load r1 => r3 ; nop ]
+[ load r4 => r5 ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ add r1, r3 => r2 ; nop ]
+[ store r2 => r4 ; sub r2, r3 => r0 ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ output 8 ; nop ]
+[ store r0 => r1 ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ nop  ; nop ]
+[ output 8 ; nop ]

@@ -2,4 +2,4 @@ Total points for correctness, efficiency, and conformance
 Import into Excel with tab separators
 
 NetID	Name	Correctness	Effectiveness	Conformance	Days Late
-sb121.tar (*)	missing	23.33	15.92	-10	5
+sb121	Stefan Boskovic	23.33	15.92	0	5

@@ -1,0 +1,4 @@
+Import into Excel with tab separators
+
+NetID	Name	Efficiency Pts	Scalability Pts
+sb121	Stefan Boskovic	0.0	15.0

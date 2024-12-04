@@ -13,6 +13,9 @@ public class DependencyNode {
     public Set<Integer> writeDependencies;
     public int index;
 
+    Map<Integer, Integer> IODependencies;
+
+    public int latency;
     public int priority;
 
     public DependencyNode(int index, IRRow operation) {
@@ -22,7 +25,10 @@ public class DependencyNode {
         writeDependencies = new HashSet<Integer>();
         this.index = index;
         this.operation = operation;
+        this.latency = -1;
         this.priority = -1;
+
+        IODependencies = new HashMap<Integer, Integer>();
 
     }
 

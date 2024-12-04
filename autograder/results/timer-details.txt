@@ -1,0 +1,4 @@
+Import into Excel with tab separators
+
+NetId	Name	T1k	T2k	T4k	T8k	T16k	T32k	T64k	T128k	Lang.	Scaling Pts	Eff Pts %
+sb121	Stefan Boskovic	1.4049	1.5164	1.8557	2.6703	3.7031	6.6255	9.4573	15.322	java 	 linear	15.0	0.0

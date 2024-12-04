@@ -1,0 +1,5 @@
+#!/bin/bash
+./gentar
+cd autograder/
+./Timer
+cd ..

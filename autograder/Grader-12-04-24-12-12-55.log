@@ -12,11 +12,7 @@ full credit.
  
 ================================================================
 Testing submission: sb121.tar
-
-	Problem determining NAME and/or NETID
-	Deduct -20% of total points
-
-Name: missing, NetId: sb121.tar (*), Date from files:  2024-12-04
+Name: Stefan Boskovic, NetId: sb121, Date from files:  2024-12-04
 
 --- building executable ---
 Executing 'make clean'
@@ -34,29 +30,28 @@ report02.i	25	25	0
 report03.i	28	28	0
 report04.i	55	37	18
 report05.i	99	27	72
-report06.i	100000	47	99953
-report07.i	100000	39	99961
-report08.i	100000	16	99984
+report06.i	152	47	105
+report07.i	86	39	47
+report08.i	20	16	4
 report09.i	52	30	22
-report10.i	100000	41	99959
-report11.i	100000	31	99969
-report12.i	100000	23	99977
-report13.i	34	29	5
+report10.i	103	41	62
+report11.i	103	31	72
+report12.i	32	23	9
+report13.i	35	29	6
 report14.i	26	22	4
-report15.i	100000	26	99974
+report15.i	74	26	48
 report16.i	117	58	59
 report17.i	28	23	5
 report18.i	39	25	14
 report19.i	47	41	6
 report20.i	79	24	55
-report21.i	100000	74	99926
-report22.i	100000	54	99946
-report23.i	100000	71	99929
+report21.i	80	74	6
+report22.i	55	54	1
+report23.i	80	71	9
 
 
-	Correctness points:   23.33 / 40	
-	Effectiveness points: 15.92 / 30
-	Lab loses 10 points for conformance problems
+	Correctness points:   40.0 / 40	
+	Effectiveness points: 20.63 / 30
 
 ================================================================
 

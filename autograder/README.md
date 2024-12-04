@@ -1,3 +1,3 @@
-# comp412lab3
+# comp412lab2
 //NAME: Stefan Boskovic
 //NETID: sb121

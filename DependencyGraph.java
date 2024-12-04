@@ -128,41 +128,43 @@ public class DependencyGraph {
         Set<Integer> writeDependencies = new HashSet<Integer>();
         int latest = -1;
         if (curr.opcode != LOADI) {
-            if (lastUse[curr.op1.VR] != -1) {
-                node.parents.put(graph.get(lastUse[curr.op1.VR]), 0);
-                graph.get(lastUse[curr.op1.VR]).children.put(node, 0);
+            int vr1 = curr.op1.VR;
+            int vr2 = curr.opcode == STORE ? curr.op3.VR : curr.op2.VR;
+            if (lastUse[vr1] != -1) {
+                node.parents.put(graph.get(lastUse[vr1]), 0);
+                graph.get(lastUse[vr1]).children.put(node, 0);
             }
-            if (curr.opcode >= ADD && curr.opcode <= RSHIFT) {
-                if (lastUse[curr.op2.VR] != -1) {
-                    node.parents.put(graph.get(lastUse[curr.op2.VR]), 0);
-                    graph.get(lastUse[curr.op2.VR]).children.put(node, 0);
+            if ((curr.opcode >= ADD && curr.opcode <= RSHIFT) || curr.opcode == STORE) {
+                if (lastUse[vr2] != -1)  {
+                    node.parents.put(graph.get(lastUse[vr2]), 0);
+                    graph.get(lastUse[vr2]).children.put(node, 0);
                 }
-                latest = Math.max(graph.get(lastUse[curr.op1.VR]).index, graph.get(lastUse[curr.op1.VR]).index);
-                for (Integer i : graph.get(lastUse[curr.op1.VR]).readDependencies) {
-                    if (graph.get(lastUse[curr.op2.VR]).readDependencies.contains(i)) {
+                latest = Math.max(graph.get(lastUse[vr1]).index, graph.get(lastUse[vr1]).index);
+                for (Integer i : graph.get(lastUse[vr1]).readDependencies) {
+                    if (graph.get(lastUse[vr2]).readDependencies.contains(i)) {
                         readDependencies.add(i);
                     }
                 }
-                for (Integer i : graph.get(lastUse[curr.op1.VR]).writeDependencies) {
-                    if (graph.get(lastUse[curr.op2.VR]).writeDependencies.contains(i)) {
+                for (Integer i : graph.get(lastUse[vr1]).writeDependencies) {
+                    if (graph.get(lastUse[vr2]).writeDependencies.contains(i)) {
                         writeDependencies.add(i);
                     }
                 }
             } else {
-                readDependencies.addAll(graph.get(lastUse[curr.op1.VR]).readDependencies);
-                writeDependencies.addAll(graph.get(lastUse[curr.op1.VR]).writeDependencies);
-                latest = graph.get(lastUse[curr.op1.VR]).index;
+                readDependencies.addAll(graph.get(lastUse[vr1]).readDependencies);
+                writeDependencies.addAll(graph.get(lastUse[vr1]).writeDependencies);
+                latest = graph.get(lastUse[vr1]).index;
             }
             if (readCache.size() > 0) {
                 for (int i = Math.max(readMap.get(latest), readMap.get(readStart)); i < readCache.size(); i++) {
-                    if (readCache.get(i) != lastUse[curr.op1.VR] && (curr.opcode < ADD || curr.opcode > RSHIFT || readCache.get(i) != lastUse[curr.op3.VR])) {
+                    if (readCache.get(i) != lastUse[vr1] && (curr.opcode < ADD || curr.opcode > RSHIFT || readCache.get(i) != lastUse[vr2])) {
                         readDependencies.add(readCache.get(i));
                     }
                 }
             }
             if (writeCache.size() > 0) {
                 for (int i = Math.max(writeMap.get(latest), writeMap.get(writeStart)); i < writeCache.size(); i++) {
-                    if (writeCache.get(i) != lastUse[curr.op1.VR] && (curr.opcode < ADD || curr.opcode > RSHIFT || writeCache.get(i) != lastUse[curr.op3.VR])) {
+                    if (writeCache.get(i) != lastUse[vr1] && (curr.opcode < ADD || curr.opcode > RSHIFT || writeCache.get(i) != lastUse[vr2])) {
                         writeDependencies.add(writeCache.get(i));
                     }
                 }
@@ -197,20 +199,40 @@ public class DependencyGraph {
     public void setPriorities() {
         List<DependencyNode> stack = new ArrayList<>();
         stack.addAll(leaves);
+        Map<DependencyNode, Integer> visited = new HashMap<>();
+        for (DependencyNode node : graph) {
+            visited.put(node, 0);
+        }
+        int iterations = 0;
         while (stack.size() > 0) {
+            iterations++;
+            if (stack.size() > 50 && iterations > 10000) {
+                break;
+            }
             DependencyNode node = stack.remove(stack.size() - 1);
+            visited.put(node, visited.get(node) + 1);
+            // System.out.println("OP: " + node.operation.toILOCString());
             if (leaves.contains(node)) {
-                node.priority = priorities.get(node.operation.opcode);
+                node.latency = priorities.get(node.operation.opcode);
+                node.priority = node.latency * priorities.get(node.operation.opcode);
                 stack.addAll(node.parents.keySet());
             } else {
+                boolean changed = false;
                 for (DependencyNode child : node.children.keySet()) {
-                    if (node.priority < child.priority + priorities.get(node.operation.opcode)) {
-                        node.priority = child.priority + priorities.get(node.operation.opcode);
+                    if (node.latency < child.latency + priorities.get(node.operation.opcode)) {
+                        node.latency = child.latency + priorities.get(node.operation.opcode);
+                        node.priority = node.latency * priorities.get(node.operation.opcode);
+                        changed = true;
                     }
                 }
-                stack.addAll(node.parents.keySet());
+                if (changed) {
+                    stack.addAll(node.parents.keySet());
+                }
             }
         }
+        // for (Map.Entry<DependencyNode, Integer> entry : visited.entrySet()) {
+        //     System.out.println(entry.getKey().operation.toILOCString() + ":  " + entry.getValue());
+        // }
     }
 
     public List<String> schedule() {

@@ -1,0 +1,3 @@
+#!/bin/bash
+rm sim.txt
+./schedule tests/report06.i >> sim.txt

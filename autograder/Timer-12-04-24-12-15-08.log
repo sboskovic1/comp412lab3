@@ -1,0 +1,33 @@
+Autotimer: using Scalability SLOCs blocks
+5 trials at each block size
+=======================================================================
+Testing submission: sb121.tar
+NetId: sb121	Name: Stefan Boskovic
+Name: Stefan Boskovic, NetID: sb121, Date from files:  2024-12-04
+
+=== building executable ===
+Executing 'make clean'
+rm -f *.class
+
+Executing 'make build'
+javac -g *.java
+=== built executable; should be ready to run ===
+
+Testing Scalability:
+
+	T001k.i:  	1.4049 seconds
+	T002k.i:  	1.5164 seconds
+	T004k.i:  	1.8557 seconds
+	T008k.i:  	2.6703 seconds
+	T016k.i:  	3.7031 seconds
+	T032k.i:  	6.6255 seconds
+	T064k.i:  	9.4573 seconds
+	T128k.i:  	15.322 seconds
+
+Scaling points: 	15.0 / 15
+Efficiency points: 	0.0 / 15  (java , 15.323)
+
+finished timing run on submission sb121.tar
+=======================================================================
+
+Timing run complete.

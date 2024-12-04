@@ -44,17 +44,15 @@ public class Main {
             renamer.printRenamedIR();
             return;
         }
-        renamer.printRenamedIR();
+        // renamer.printRenamedIR();
 
         DependencyGraph graph = new DependencyGraph(renamer.vr);
 
         graph.buildGraph(renamer.head);
 
-        // graph.printGraph();
+        graph.setPriorities();  
 
-        graph.setPriorities();
-
-        // graph.printGraph(true, false);
+        // graph.printGraph(false, true);
 
         List<String> schedule = graph.schedule();
         
