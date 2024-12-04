@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -42,12 +44,23 @@ public class Main {
             renamer.printRenamedIR();
             return;
         }
+        renamer.printRenamedIR();
 
-        DependencyGraph graph = new DependencyGraph(parser.maxReg);
+        DependencyGraph graph = new DependencyGraph(renamer.vr);
 
         graph.buildGraph(renamer.head);
 
-        graph.printGraph();
+        // graph.printGraph();
+
+        graph.setPriorities();
+
+        // graph.printGraph(true, false);
+
+        List<String> schedule = graph.schedule();
+        
+        for (String s : schedule) {
+            System.out.println(s);
+        }
 
         // Allocator allocator = new Allocator(parser.head, regs, renamer.vr, renamer.maxLive, 32768);
 

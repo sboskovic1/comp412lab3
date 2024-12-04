@@ -89,7 +89,7 @@ public class Parser {
             if (error) {
                 System.out.println("Parse found errors.");
             } else {
-                System.out.println("// Parse Succeeded. Processed " + operations + " operations.");
+                // System.out.println("// Parse Succeeded. Processed " + operations + " operations.");
             }
         }
 

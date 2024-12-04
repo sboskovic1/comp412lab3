@@ -1,0 +1,10 @@
+loadI 0 => r0
+loadI 64 => r1
+add r1, r1 => r1
+loadI 128 => r2
+mult r1, r2 => r1
+loadI 256 => r2
+mult r1, r2 => r1
+loadI 512 => r2
+mult r1, r2 => r1
+store r1 => r0

@@ -133,7 +133,7 @@ def lab_missing_file_check():
     # set stdin to /dev/null in case lab reads from terminal if open
     # fails. Use timeout as a hedge against other bad results from the open()
     fname = "./does_not_exist"
-    command_line = 'timeout 20s ./schedule 5 ' + fname + '.mine >& ./'+ fname+ '.output </dev/null'
+    command_line = 'timeout 20s ./schedule ' + fname + '.mine >& ./'+ fname+ '.output </dev/null'
     os.system(command_line)
 
     result = check_missing_file_name(fname+".output")
